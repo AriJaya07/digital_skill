@@ -1,0 +1,11 @@
+<h1>Courses</h1>
+<a href="{% url 'add_course' %}">Add New Course</a>
+<ul>
+  <h1>Delete Course</h1>
+  <p>Are you sure you want to delete "{{ course.title }}"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+    <a href="{% url 'course_list' %}">Cancel</a>
+  </form>
+</ul>

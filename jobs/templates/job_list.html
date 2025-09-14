@@ -1,0 +1,23 @@
+<h1>Job Listings</h1>
+<a href="{% url 'add_job' %}">Add Job</a>
+<ul>
+    {% for job in jobs %}
+        <li>
+            <h2>{{ job.title }}</h2>
+            <p>{{ job.description }}</p>
+            {% if job.image %}
+                <img src="{{ job.image.url }}" width="200">
+            {% endif %}
+            <p>Skills: 
+                {% for skill in job.required_skills.all %}
+                    {{ skill.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+            <p>Employer: {{ job.employer.username }}</p>
+            <a href="{% url 'edit_job' job.id %}">Edit</a> |
+            <a href="{% url 'delete_job' job.id %}">Delete</a>
+        </li>
+    {% empty %}
+        <li>No jobs posted</li>
+    {% endfor %}
+</ul>

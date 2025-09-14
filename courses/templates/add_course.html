@@ -1,0 +1,10 @@
+<h1>Courses</h1>
+<a href="{% url 'add_course' %}">Add New Course</a>
+<ul>
+  <h1>{% if course %}Edit{% else %}Add{% endif %} Course</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+  <a href="{% url 'course_list' %}">Back to List</a>
+</ul>

@@ -1,0 +1,7 @@
+<h1>{% if job %}Edit{% else %}Add{% endif %} Job</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+<a href="{% url 'job_list' %}">Back to Job List</a>
