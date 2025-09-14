@@ -1,7 +1,23 @@
-<h1>{% if job %}Edit{% else %}Add{% endif %} Job</h1>
-<form method="post" enctype="multipart/form-data">
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">{% if job %}Edit{% else %}Add{% endif %} Job</h1>
+
+<form method="post" enctype="multipart/form-data" class="space-y-4">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
+    {% for field in form %}
+        <div>
+            {{ field.label_tag }}
+            {% render_field field class="w-full p-2 border rounded" %}
+            {% if field.errors %}
+                <p class="text-red-500 text-sm">{{ field.errors|striptags }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
 </form>
-<a href="{% url 'job_list' %}">Back to Job List</a>
+
+<a href="{% url 'job_list' %}" class="text-blue-600 hover:underline mt-4 block">Back to Job List</a>
+{% endblock %}

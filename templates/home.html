@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6 text-center">Welcome, {{ request.user.username }}!</h1>
+
+<!-- Courses Section -->
+<section class="mb-10">
+    <h2 class="text-2xl font-semibold mb-4">Courses</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for course in courses %}
+            <div class="bg-white shadow rounded p-4">
+                <h3 class="font-bold text-xl mb-2">{{ course.title }}</h3>
+                <p class="text-gray-700 mb-2">{{ course.description|truncatechars:100 }}</p>
+                {% if course.image %}
+                    <img src="{{ course.image.url }}" alt="{{ course.title }}" class="w-full h-40 object-cover rounded mb-2">
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Jobs Section -->
+<section>
+    <h2 class="text-2xl font-semibold mb-4">Jobs</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for job in jobs %}
+            <div class="bg-white shadow rounded p-4">
+                <h3 class="font-bold text-xl mb-2">{{ job.title }}</h3>
+                <p class="text-gray-700 mb-2">{{ job.description|truncatechars:100 }}</p>
+                {% if job.image %}
+                    <img src="{{ job.image.url }}" alt="{{ job.title }}" class="w-full h-40 object-cover rounded mb-2">
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,7 +1,74 @@
-<h1>{% if job %}Edit{% else %}Add{% endif %} Job</h1>
-<form method="post" enctype="multipart/form-data">
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">{% if job %}Edit{% else %}Add{% endif %} Job</h1>
+
+<form method="post" enctype="multipart/form-data" class="space-y-4">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
+
+    <div>
+        {{ form.title.label_tag }}
+        {% render_field form.title class="w-full p-2 border rounded" %}
+    </div>
+
+    <div>
+        {{ form.description.label_tag }}
+        {% render_field form.description class="w-full p-2 border rounded" %}
+    </div>
+
+    <div>
+        {{ form.required_skills.label_tag }}
+        {% render_field form.required_skills class="w-full p-2 border rounded" %}
+    </div>
+
+    <div>
+        {{ form.employer.label_tag }}
+        {% render_field form.employer class="w-full p-2 border rounded" %}
+    </div>
+
+    <div>
+        {{ form.location.label_tag }}
+        {% render_field form.location class="w-full p-2 border rounded" %}
+    </div>
+
+    <div>
+        {{ form.image.label_tag }}
+        {% render_field form.image class="w-full p-2 border rounded" %}
+    </div>
+
+    <!-- Preview image -->
+    <div class="mt-2">
+        {% if job and job.image %}
+            <img id="imagePreview" src="{{ job.image.url }}" alt="Job Image" class="w-64 h-40 object-cover rounded border">
+        {% else %}
+            <img id="imagePreview" src="" alt="Job Image Preview" class="w-64 h-40 object-cover rounded border hidden">
+        {% endif %}
+    </div>
+
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
 </form>
-<a href="{% url 'job_list' %}">Back to Job List</a>
+
+<a href="{% url 'job_list' %}" class="text-blue-600 hover:underline mt-4 block">Back to Job List</a>
+
+<script>
+    const imageInput = document.getElementById("id_image");
+    const imagePreview = document.getElementById("imagePreview");
+
+    if (imageInput) {
+        imageInput.addEventListener("change", function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove("hidden");
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+</script>
+{% endblock %}

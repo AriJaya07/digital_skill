@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Learn2Earn{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+{% load widget_tweaks %}
+
+<!-- Header -->
+<header class="bg-blue-600 text-white py-4 shadow">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold">Learn2Earn</h1>
+        <nav>
+            <a href="{% url 'home' %}" class="mr-4 hover:underline">Home</a>
+            <a href="{% url 'course_list' %}" class="mr-4 hover:underline">Courses</a>
+            <a href="{% url 'job_list' %}" class="mr-4 hover:underline">Jobs</a>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'profile_detail' %}" class="mr-4 hover:underline">
+                    <span class="mr-4">Hi, {{ request.user.username }}</span>
+                </a>
+                <a href="{% url 'logout' %}" class="hover:underline">Logout</a>
+            {% else %}
+                <button onclick="openModal('loginModal')" class="mr-4 hover:underline">Login</button>
+                <button onclick="openModal('registerModal')" class="hover:underline">Register</button>
+            {% endif %}
+        </nav>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="container mx-auto py-8">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-4 mt-10">
+    <div class="container mx-auto text-center">
+        &copy; 2025 Learn2Earn. All rights reserved.
+    </div>
+</footer>
+
+<!-- Login Modal -->
+<div id="loginModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-xl font-bold mb-4">Login</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label class="block mb-1">Username</label>
+                <input type="text" name="username" class="w-full border rounded px-3 py-2">
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1">Password</label>
+                <input type="password" name="password" class="w-full border rounded px-3 py-2">
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button type="button" onclick="closeModal('loginModal')" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div id="registerModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-xl font-bold mb-4">Register</h2>
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label class="block mb-1">Username</label>
+                <input type="text" name="username" class="w-full border rounded px-3 py-2">
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1">Email</label>
+                <input type="email" name="email" class="w-full border rounded px-3 py-2">
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1">Password</label>
+                <input type="password" name="password1" class="w-full border rounded px-3 py-2">
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1">Confirm Password</label>
+                <input type="password" name="password2" class="w-full border rounded px-3 py-2">
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button type="button" onclick="closeModal('registerModal')" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+                <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Script -->
+<script>
+function openModal(id) {
+    document.getElementById(id).classList.remove("hidden");
+}
+function closeModal(id) {
+    document.getElementById(id).classList.add("hidden");
+}
+</script>
+
+</body>
+</html>
