@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{{ course.title }} | Course Detail{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto p-6 bg-white shadow rounded-lg">
+    <!-- Image -->
+    {% if course.image %}
+        <img src="{{ course.image.url }}" class="w-full h-64 object-cover rounded mb-6">
+    {% endif %}
+
+    <!-- Title & Description -->
+    <h1 class="text-3xl font-bold text-gray-800">{{ course.title }}</h1>
+    <p class="text-gray-600 mt-4">{{ course.description }}</p>
+
+    <!-- Metadata -->
+    <div class="mt-6 text-sm text-gray-500">
+        <p>Created at: {{ course.created_at|date:"M d, Y" }}</p>
+        {% if course.skill %}<p>Skill: {{ course.skill.name }}</p>{% endif %}
+        {% if course.mentor %}<p>Mentor: {{ course.mentor }}</p>{% endif %}
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-end mt-6">
+        <a href="{% url 'course_list' %}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">← Back</a>
+    </div>
+</div>
+{% endblock %}
